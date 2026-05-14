@@ -110,25 +110,89 @@
   .btn.ghost:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
   /* ===== LANG SWITCHER ===== */
-  .lang-switch {
-    appearance: none;
-    -webkit-appearance: none;
+  .lang-picker { position: relative; display: inline-block; }
+
+  .lang-trigger {
+    display: inline-flex; align-items: center; gap: 8px;
     background: transparent;
     border: 1px solid var(--line);
     color: var(--ink);
-    padding: 8px 30px 8px 14px;
+    padding: 6px 12px 6px 8px;
     border-radius: 100px;
     font: inherit;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%231b1410' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
     transition: border-color .2s ease, background-color .2s ease;
   }
-  .lang-switch:hover { border-color: var(--ink); }
-  .lang-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .lang-trigger:hover { border-color: var(--ink); }
+  .lang-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .lang-trigger[aria-expanded="true"] { border-color: var(--ink); background: var(--paper); }
+
+  .lang-flag {
+    display: inline-block;
+    width: 20px; height: 14px;
+    border-radius: 3px;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .08);
+  }
+  .lang-flag svg { width: 100%; height: 100%; display: block; }
+
+  .lang-code { letter-spacing: .06em; }
+
+  .lang-caret {
+    width: 10px; height: 6px;
+    margin-left: 2px;
+    transition: transform .2s ease;
+  }
+  .lang-trigger[aria-expanded="true"] .lang-caret { transform: rotate(180deg); }
+
+  .lang-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    min-width: 180px;
+    z-index: 60;
+    transform-origin: top right;
+    animation: lang-menu-in .14s ease-out;
+  }
+  @keyframes lang-menu-in {
+    from { opacity: 0; transform: translateY(-4px) scale(.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .lang-option {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--ink-soft);
+    transition: background-color .15s ease, color .15s ease;
+  }
+  .lang-option:hover,
+  .lang-option:focus-visible { background: var(--bg-2); color: var(--ink); outline: none; }
+  .lang-option[aria-selected="true"] { color: var(--ink); }
+  .lang-option[aria-selected="true"]::after {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-left: auto;
+  }
+  .lang-option .lang-code { color: var(--muted); font-size: 11px; min-width: 22px; }
+  .lang-option .lang-name { font-family: 'Fraunces', serif; font-weight: 500; letter-spacing: -.01em; }
+  @media (prefers-reduced-motion: reduce) {
+    .lang-menu { animation: none; }
+    .lang-caret { transition: none; }
+  }
 
   @media (max-width: 720px) { .nav-links { display: none; } }
   @media (max-width: 480px) {
@@ -475,11 +539,49 @@
       <a href="#contact" data-i18n="nav.contact"></a>
     </nav>
     <div class="nav-right">
-      <select id="lang-switch" class="lang-switch" aria-label="Language / Lingua / Ngôn ngữ">
-        <option value="en">English</option>
-        <option value="it">Italiano</option>
-        <option value="vi">Tiếng Việt</option>
-      </select>
+      <div class="lang-picker" id="lang-picker">
+        <button type="button" class="lang-trigger" id="lang-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="lang-menu" aria-label="Language / Lingua / Ngôn ngữ">
+          <span class="lang-flag" data-flag-slot aria-hidden="true"></span>
+          <span class="lang-code" data-code-slot></span>
+          <svg class="lang-caret" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+        </button>
+        <ul class="lang-menu" id="lang-menu" role="listbox" hidden>
+          <li class="lang-option" role="option" data-value="en" tabindex="-1">
+            <span class="lang-flag" aria-hidden="true">
+              <svg viewBox="0 0 60 40" preserveAspectRatio="none">
+                <rect width="60" height="40" fill="#012169"/>
+                <path d="M0 0 L60 40 M60 0 L0 40" stroke="#fff" stroke-width="8"/>
+                <path d="M0 0 L60 40 M60 0 L0 40" stroke="#C8102E" stroke-width="4"/>
+                <path d="M30 0 V40 M0 20 H60" stroke="#fff" stroke-width="10"/>
+                <path d="M30 0 V40 M0 20 H60" stroke="#C8102E" stroke-width="6"/>
+              </svg>
+            </span>
+            <span class="lang-code">EN</span>
+            <span class="lang-name">English</span>
+          </li>
+          <li class="lang-option" role="option" data-value="it" tabindex="-1">
+            <span class="lang-flag" aria-hidden="true">
+              <svg viewBox="0 0 60 40" preserveAspectRatio="none">
+                <rect width="20" height="40" fill="#009246"/>
+                <rect x="20" width="20" height="40" fill="#fff"/>
+                <rect x="40" width="20" height="40" fill="#CE2B37"/>
+              </svg>
+            </span>
+            <span class="lang-code">IT</span>
+            <span class="lang-name">Italiano</span>
+          </li>
+          <li class="lang-option" role="option" data-value="vi" tabindex="-1">
+            <span class="lang-flag" aria-hidden="true">
+              <svg viewBox="0 0 60 40" preserveAspectRatio="xMidYMid slice">
+                <rect width="60" height="40" fill="#DA251D"/>
+                <path d="M30 10 L32.82 18.12 L41.41 18.29 L34.56 23.48 L37.06 31.71 L30 26.8 L22.94 31.71 L25.44 23.48 L18.59 18.29 L27.18 18.12 Z" fill="#FFFF00"/>
+              </svg>
+            </span>
+            <span class="lang-code">VI</span>
+            <span class="lang-name">Tiếng Việt</span>
+          </li>
+        </ul>
+      </div>
       <a class="btn" href="#contact" data-i18n="nav.cta"></a>
     </div>
   </div>
@@ -936,11 +1038,81 @@
     }
   }
 
-  const langSwitch = document.getElementById('lang-switch');
+  // ===== language picker (custom listbox) =====
+  const langPicker = document.getElementById('lang-picker');
+  const langTrigger = document.getElementById('lang-trigger');
+  const langMenu = document.getElementById('lang-menu');
+  const langOptions = Array.from(langMenu.querySelectorAll('.lang-option'));
+  const flagSlot = langTrigger.querySelector('[data-flag-slot]');
+  const codeSlot = langTrigger.querySelector('[data-code-slot]');
+
+  function syncTrigger(lang) {
+    const opt = langOptions.find(o => o.dataset.value === lang) || langOptions[0];
+    langOptions.forEach(o => o.setAttribute('aria-selected', o === opt ? 'true' : 'false'));
+    flagSlot.innerHTML = opt.querySelector('.lang-flag').innerHTML;
+    codeSlot.textContent = opt.querySelector('.lang-code').textContent;
+  }
+
+  function openMenu() {
+    langMenu.hidden = false;
+    langTrigger.setAttribute('aria-expanded', 'true');
+    const selected = langMenu.querySelector('[aria-selected="true"]') || langOptions[0];
+    selected.focus();
+  }
+  function closeMenu(returnFocus) {
+    if (langMenu.hidden) return;
+    langMenu.hidden = true;
+    langTrigger.setAttribute('aria-expanded', 'false');
+    if (returnFocus) langTrigger.focus();
+  }
+
+  langTrigger.addEventListener('click', () => {
+    if (langMenu.hidden) openMenu(); else closeMenu(true);
+  });
+  langTrigger.addEventListener('keydown', (e) => {
+    if ((e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') && langMenu.hidden) {
+      e.preventDefault();
+      openMenu();
+    } else if (e.key === 'Escape' && !langMenu.hidden) {
+      e.preventDefault();
+      closeMenu(true);
+    }
+  });
+
+  langOptions.forEach((opt, idx) => {
+    opt.addEventListener('click', () => {
+      const lang = opt.dataset.value;
+      syncTrigger(lang);
+      applyLang(lang);
+      closeMenu(true);
+    });
+    opt.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        langOptions[(idx + 1) % langOptions.length].focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        langOptions[(idx - 1 + langOptions.length) % langOptions.length].focus();
+      } else if (e.key === 'Home') {
+        e.preventDefault(); langOptions[0].focus();
+      } else if (e.key === 'End') {
+        e.preventDefault(); langOptions[langOptions.length - 1].focus();
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault(); opt.click();
+      } else if (e.key === 'Escape' || e.key === 'Tab') {
+        if (e.key === 'Escape') e.preventDefault();
+        closeMenu(e.key === 'Escape');
+      }
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!langPicker.contains(e.target)) closeMenu(false);
+  });
+
   const initial = detectLang();
-  langSwitch.value = initial;
+  syncTrigger(initial);
   applyLang(initial);
-  langSwitch.addEventListener('change', (e) => applyLang(e.target.value));
 </script>
 
 </body>
