@@ -306,6 +306,58 @@
   .step h3 { font-size: 26px; margin: 16px 0 10px; color: var(--paper); }
   .step p { color: rgba(255,250,243,.7); margin: 0; }
 
+  /* ===== TWO KITCHENS ===== */
+  .blend {
+    background: var(--bg-2);
+    overflow: hidden;
+  }
+  .blend-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 40px;
+    align-items: stretch;
+  }
+  @media (max-width: 800px) {
+    .blend-grid { grid-template-columns: 1fr; }
+  }
+  .blend-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 40px 36px;
+    position: relative;
+  }
+  .blend-card .flag {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 14px; color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .blend-card .dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .blend-card.vn .dot { background: var(--accent); }
+  .blend-card.it .dot { background: var(--herb); }
+  .blend-card h3 {
+    font-size: 28px; margin-bottom: 14px;
+  }
+  .blend-card p { color: var(--ink-soft); margin: 0 0 18px; }
+  .blend-card .tags { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .blend-card .tags li {
+    font-size: 12px; padding: 6px 12px;
+    border: 1px solid var(--line); border-radius: 100px;
+    color: var(--ink-soft);
+  }
+  .blend-bridge {
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 22px;
+    min-width: 60px;
+  }
+  @media (max-width: 800px) { .blend-bridge { padding: 8px 0; } }
+
   /* ===== ABOUT ===== */
   .about-grid {
     display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px;
@@ -388,6 +440,7 @@
     <nav class="nav-links" aria-label="Primary">
       <a href="#dishes">The Menu</a>
       <a href="#story">The Process</a>
+      <a href="#blend">Two Kitchens</a>
       <a href="#about">About Kim</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -401,10 +454,10 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="reveal">
-        <span class="eyebrow">Hà Nội &nbsp;·&nbsp; Sài Gòn &nbsp;·&nbsp; her kitchen</span>
-        <h1>Slow broth,<br />fresh herbs, <em>made by Kim.</em></h1>
+        <span class="eyebrow">Sài Gòn &nbsp;→&nbsp; Italia &nbsp;·&nbsp; her kitchen</span>
+        <h1>Sài Gòn soul,<br /><em>cooked in Italy.</em></h1>
         <p class="lede">
-          Hand-pulled phở simmered for sixteen hours and spring rolls wrapped to order — Kim cooks the Vietnamese food she grew up on, the way her grandmother taught her. No shortcuts. Just patience, good herbs, and a very hot stove.
+          Kim grew up in Ho Chi Minh City and now cooks out of a kitchen in Italy — phở simmered for sixteen hours, spring rolls wrapped to order, and a quiet love affair with the markets, herbs and slow rhythms of her adopted home. Two cultures, one stove.
         </p>
         <div class="hero-ctas">
           <a href="#dishes" class="btn">Explore the menu →</a>
@@ -489,8 +542,8 @@
   <!-- MARQUEE -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track">
-      <span>Phở Bò</span><span>Gỏi Cuốn</span><span>Thai Basil</span><span>Star Anise</span><span>Rice Paper</span><span>Sixteen Hour Broth</span><span>Nước Chấm</span><span>Cilantro</span>
-      <span>Phở Bò</span><span>Gỏi Cuốn</span><span>Thai Basil</span><span>Star Anise</span><span>Rice Paper</span><span>Sixteen Hour Broth</span><span>Nước Chấm</span><span>Cilantro</span>
+      <span>Phở Bò</span><span>Gỏi Cuốn</span><span>Sài Gòn → Italia</span><span>Star Anise</span><span>Basilico</span><span>Sixteen Hour Broth</span><span>Nước Chấm</span><span>Piano, piano</span>
+      <span>Phở Bò</span><span>Gỏi Cuốn</span><span>Sài Gòn → Italia</span><span>Star Anise</span><span>Basilico</span><span>Sixteen Hour Broth</span><span>Nước Chấm</span><span>Piano, piano</span>
     </div>
   </div>
 
@@ -502,7 +555,7 @@
           <span class="eyebrow">The Menu</span>
           <h2>Two dishes.<br/>Done properly.</h2>
         </div>
-        <p>Kim keeps the menu small on purpose — every bowl, every roll gets her full attention. These are the two she's been perfecting since she was eight years old.</p>
+        <p>Kim keeps the menu small on purpose — every bowl, every roll gets her full attention. The recipes come from her mother's kitchen in Sài Gòn; the herbs, more often than not, come from a balcony garden in Italy.</p>
       </div>
 
       <div class="dishes">
@@ -633,6 +686,41 @@
     </div>
   </section>
 
+  <!-- TWO KITCHENS -->
+  <section id="blend" class="blend">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Two Kitchens, One Cook</span>
+          <h2>Where Sài Gòn<br/>meets the Mediterranean.</h2>
+        </div>
+        <p>Kim doesn't fuse the two cuisines — she lets them sit at the same table. Vietnamese technique, Italian pantry. A long simmer is a long simmer in any language.</p>
+      </div>
+
+      <div class="blend-grid">
+        <article class="blend-card vn reveal">
+          <div class="flag"><span class="dot"></span> Sài Gòn</div>
+          <h3>The Vietnamese half.</h3>
+          <p>Fish sauce instead of salt. Herbs torn, not chopped. Broth that tells you when it's done. Recipes passed down without measurements — only feel.</p>
+          <ul class="tags">
+            <li>Nước mắm</li><li>Star anise</li><li>Thai basil</li><li>Rice paper</li><li>Bird's-eye chili</li>
+          </ul>
+        </article>
+
+        <div class="blend-bridge reveal" aria-hidden="true">＋</div>
+
+        <article class="blend-card it reveal">
+          <div class="flag"><span class="dot"></span> Italia</div>
+          <h3>The Italian half.</h3>
+          <p>A weekly trip to the market for whatever's best. Piedmontese beef bones for the broth, Ligurian basil when the Thai variety is sleeping, olive oil where it earns its place.</p>
+          <ul class="tags">
+            <li>Mercato finds</li><li>Slow Saturdays</li><li>Basilico</li><li>Lemon &amp; herbs</li><li>Buon appetito</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- ABOUT -->
   <section id="about" class="about">
     <div class="wrap about-grid">
@@ -677,15 +765,15 @@
 
       <div class="reveal">
         <span class="eyebrow">About Kim</span>
-        <h2>She's been cooking longer than she's been driving.</h2>
+        <h2>From a Sài Gòn alleyway to a kitchen in Italy.</h2>
         <p>
-          Kim learned to cook at her grandmother's elbow in a small kitchen outside Hà Nội — stirring broth before she could reach the stove without a stool. She moved abroad in her twenties, but the recipes came with her, written in pencil on the back of an envelope she still keeps.
+          Kim grew up in Ho Chi Minh City — learning to cook at her mother's elbow in a narrow kitchen that opened straight onto the street, where the smell of charring shallots blended with motorbike exhaust and the neighbour's coffee. She moved to Italy in her twenties for love, and stayed for the food.
         </p>
         <blockquote>
-          "Phở isn't a recipe, it's a temperament. You can't be in a hurry."
+          "Italians and Vietnamese understand the same thing — that a good broth, a good ragù, a good anything takes all day. You can't be in a hurry."
         </blockquote>
         <p>
-          Today she cooks out of her home kitchen for friends, neighbors, and anyone who's heard about her by word of mouth. The menu is short, the portions are generous, and the herbs are picked the morning of.
+          Now she cooks somewhere between two grandmothers. Phở made with Piedmontese beef bones. Spring rolls finished with Ligurian basil when Thai basil's out of season. The technique is Vietnamese, but the pantry is half Italian — and somehow it works.
         </p>
       </div>
     </div>
@@ -711,7 +799,7 @@
           <span class="brand-mark" aria-hidden="true"></span>
           Kim's Kitchen
         </div>
-        <div style="max-width: 30ch;">Vietnamese home cooking, made slow. Phở and gỏi cuốn to order.</div>
+        <div style="max-width: 32ch;">Vietnamese home cooking, made slow — from Sài Gòn, cooked in Italy. Phở and gỏi cuốn to order.</div>
       </div>
       <div>
         <div style="color: var(--paper); font-weight: 600; margin-bottom: 10px;">Menu</div>
@@ -728,7 +816,7 @@
     </div>
     <div class="foot-bottom">
       <div>© <span id="yr"></span> Kim's Kitchen · Made with love &amp; star anise</div>
-      <div>Hà Nội → here</div>
+      <div>Sài Gòn → Italia, con amore</div>
     </div>
   </div>
 </footer>
