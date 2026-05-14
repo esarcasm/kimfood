@@ -877,286 +877,11 @@
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
   // ===== i18n =====
+  // English copy is rendered inline in the HTML, so it shows immediately
+  // without a network round-trip. Other languages are fetched from i18n/<lang>.json.
   const SUPPORTED = ['en', 'it', 'vi'];
   const DEFAULT_LANG = 'en';
-
-  const I18N = {
-    en: {
-      'meta.title': "Kim's Kitchen — Phở & Spring Rolls",
-      'meta.description': "Kim's Kitchen — handcrafted Vietnamese phở and fresh spring rolls, made slow and made with love.",
-
-      'nav.menu': 'The Menu',
-      'nav.process': 'The Process',
-      'nav.blend': 'Two Kitchens',
-      'nav.about': 'About Kim',
-      'nav.contact': 'Contact',
-      'nav.cta': 'Order a bowl',
-
-      'hero.eyebrow': 'Sài Gòn &nbsp;→&nbsp; Italia &nbsp;·&nbsp; her kitchen',
-      'hero.title': 'Sài Gòn soul,<br /><em>cooked in Italy.</em>',
-      'hero.lede': "Kim grew up in Ho Chi Minh City and now cooks out of a kitchen in Italy — phở simmered for sixteen hours, spring rolls wrapped to order, and a quiet love affair with the markets, herbs and slow rhythms of her adopted home. Two cultures, one stove.",
-      'hero.cta1': 'Explore the menu →',
-      'hero.cta2': "How it's made",
-      'hero.stat1': 'Broth simmer time',
-      'hero.stat2': 'Fresh herbs &amp; spices',
-      'hero.stat3': 'Pair of very steady hands',
-
-      'dishes.eyebrow': 'The Menu',
-      'dishes.title': 'Two dishes.<br/>Done properly.',
-      'dishes.intro': "Kim keeps the menu small on purpose — every bowl, every roll gets her full attention. The recipes come from her mother's kitchen in Sài Gòn; the herbs, more often than not, come from a balcony garden in Italy.",
-
-      'dish.pho.tag': 'Signature · Beef',
-      'dish.pho.subtitle': '— the soul of a Sài Gòn morning',
-      'dish.pho.desc': 'Beef bones charred over open flame, then coaxed for sixteen hours with ginger, star anise, cassia, cloves and a single black cardamom pod. Served with hand-cut rice noodles, thin-shaved brisket, and a forest of herbs.',
-      'dish.pho.tag1': '16-hour broth',
-      'dish.pho.tag2': 'Rare brisket',
-      'dish.pho.tag3': 'Thai basil',
-      'dish.pho.tag4': 'Lime &amp; chili',
-      'dish.pho.tag5': 'House hoisin',
-
-      'dish.rolls.tag': 'Fresh · Vegetarian options',
-      'dish.rolls.subtitle': '— summer wrapped in rice paper',
-      'dish.rolls.desc': 'Translucent rice paper around poached prawn, vermicelli, butter lettuce, mint and Thai basil. Wrapped to order so the paper never gets tacky, paired with house peanut sauce or tangy nước chấm.',
-      'dish.rolls.tag1': 'Wrapped to order',
-      'dish.rolls.tag2': 'Prawn or tofu',
-      'dish.rolls.tag3': 'Peanut sauce',
-      'dish.rolls.tag4': 'Nước chấm',
-      'dish.rolls.tag5': 'Gluten-free',
-
-      'story.eyebrow': 'The Process',
-      'story.title': 'Three things<br/>Kim refuses to rush.',
-      'story.intro': "Vietnamese cooking is mostly about restraint — the right ingredient at the right time, and then leaving it alone. Here's what that looks like in her kitchen.",
-      'story.step1.n': '01 / The Broth',
-      'story.step1.h': 'Bones charred, never boiled hard.',
-      'story.step1.p': "Marrow bones blister over a flame until aromatic, then drop into water that's only ever allowed to whisper. A rolling boil clouds the broth — Kim won't have it.",
-      'story.step2.n': '02 / The Spice',
-      'story.step2.h': 'Toasted in a dry pan, by smell.',
-      'story.step2.p': 'Star anise, cassia bark, cloves, coriander seed, fennel — toasted until the kitchen tells her to stop. Bundled in muslin so the broth stays clear and bright.',
-      'story.step3.n': '03 / The Herbs',
-      'story.step3.h': 'Cut at the last possible moment.',
-      'story.step3.p': "Thai basil, sawtooth coriander, mint, scallions, bird's-eye chili. Picked, washed, torn — never chopped — and added at the table so nothing goes flat.",
-
-      'blend.eyebrow': 'Two Kitchens, One Cook',
-      'blend.title': 'Where Sài Gòn<br/>meets the Mediterranean.',
-      'blend.intro': "Kim doesn't fuse the two cuisines — she lets them sit at the same table. Vietnamese technique, Italian pantry. A long simmer is a long simmer in any language.",
-      'blend.vn.h': 'The Vietnamese half.',
-      'blend.vn.p': "Fish sauce instead of salt. Herbs torn, not chopped. Broth that tells you when it's done. Recipes passed down without measurements — only feel.",
-      'blend.vn.tag1': 'Nước mắm',
-      'blend.vn.tag2': 'Star anise',
-      'blend.vn.tag3': 'Thai basil',
-      'blend.vn.tag4': 'Rice paper',
-      'blend.vn.tag5': "Bird's-eye chili",
-      'blend.it.h': 'The Italian half.',
-      'blend.it.p': 'A weekly trip to the market for whatever\'s best. Piedmontese beef bones for the broth, Ligurian basil when the Thai variety is sleeping, olive oil where it earns its place.',
-      'blend.it.tag1': 'Mercato finds',
-      'blend.it.tag2': 'Slow Saturdays',
-      'blend.it.tag3': 'Basilico',
-      'blend.it.tag4': 'Lemon &amp; herbs',
-      'blend.it.tag5': 'Buon appetito',
-
-      'about.eyebrow': 'About Kim',
-      'about.title': 'From a Sài Gòn alleyway to a kitchen in Italy.',
-      'about.p1': "Kim grew up in Ho Chi Minh City — learning to cook at her mother's elbow in a narrow kitchen that opened straight onto the street, where the smell of charring shallots blended with motorbike exhaust and the neighbour's coffee. She moved to Italy in her twenties for love, and stayed for the food.",
-      'about.quote': '"Italians and Vietnamese understand the same thing — that a good broth, a good ragù, a good anything takes all day. You can\'t be in a hurry."',
-      'about.p2': "Now she cooks somewhere between two grandmothers. Phở made with Piedmontese beef bones. Spring rolls finished with Ligurian basil when Thai basil's out of season. The technique is Vietnamese, but the pantry is half Italian — and somehow it works.",
-
-      'cta.eyebrow': 'Get in touch',
-      'cta.title': 'Hungry? Kim is cooking this weekend.',
-      'cta.body': "Drop her a note about what you'd like, how many you're feeding, and when you'd like to pick up. She usually gets back within a day — sooner if the broth isn't on.",
-      'cta.btn': 'Email Kim →',
-
-      'foot.tagline': 'Vietnamese home cooking, made slow — from Sài Gòn, cooked in Italy. Phở and gỏi cuốn to order.',
-      'foot.menu_label': 'Menu',
-      'foot.find_label': 'Find Kim',
-      'foot.link_process': 'The Process',
-      'foot.link_wom': 'Word of mouth',
-      'foot.copy': "Kim's Kitchen · Made with love &amp; star anise",
-    },
-
-    it: {
-      'meta.title': "Kim's Kitchen — Phở e Involtini Primavera",
-      'meta.description': "Kim's Kitchen — phở vietnamita artigianale e involtini primavera freschi, fatti lenti e con amore.",
-
-      'nav.menu': 'Il Menu',
-      'nav.process': 'Il Processo',
-      'nav.blend': 'Due Cucine',
-      'nav.about': 'Su Kim',
-      'nav.contact': 'Contatti',
-      'nav.cta': 'Ordina una ciotola',
-
-      'hero.eyebrow': 'Sài Gòn &nbsp;→&nbsp; Italia &nbsp;·&nbsp; la sua cucina',
-      'hero.title': "L'anima di Sài Gòn,<br /><em>cucinata in Italia.</em>",
-      'hero.lede': "Kim è cresciuta a Ho Chi Minh City e ora cucina da una cucina in Italia — phở a fuoco lento per sedici ore, involtini primavera arrotolati al momento, e una quieta storia d'amore con i mercati, le erbe e i ritmi lenti della sua terra d'adozione. Due culture, un solo fornello.",
-      'hero.cta1': 'Scopri il menu →',
-      'hero.cta2': 'Come si prepara',
-      'hero.stat1': 'Sobbollitura del brodo',
-      'hero.stat2': 'Erbe e spezie fresche',
-      'hero.stat3': 'Paio di mani molto ferme',
-
-      'dishes.eyebrow': 'Il Menu',
-      'dishes.title': 'Due piatti.<br/>Fatti come si deve.',
-      'dishes.intro': "Kim tiene il menu volutamente piccolo — ogni ciotola, ogni involtino riceve tutta la sua attenzione. Le ricette vengono dalla cucina di sua madre a Sài Gòn; le erbe, il più delle volte, da un orto sul balcone in Italia.",
-
-      'dish.pho.tag': 'Specialità · Manzo',
-      'dish.pho.subtitle': "— l'anima di un mattino a Sài Gòn",
-      'dish.pho.desc': "Ossa di manzo bruciate a fiamma viva, poi sobbollite per sedici ore con zenzero, anice stellato, cassia, chiodi di garofano e un solo baccello di cardamomo nero. Servito con noodles di riso tagliati a mano, sottili fette di petto e una foresta di erbe aromatiche.",
-      'dish.pho.tag1': 'Brodo 16 ore',
-      'dish.pho.tag2': 'Petto al sangue',
-      'dish.pho.tag3': 'Basilico thai',
-      'dish.pho.tag4': 'Lime e peperoncino',
-      'dish.pho.tag5': 'Hoisin della casa',
-
-      'dish.rolls.tag': 'Fresco · Opzioni vegetariane',
-      'dish.rolls.subtitle': "— l'estate avvolta nella carta di riso",
-      'dish.rolls.desc': 'Carta di riso traslucida intorno a gamberi sbollentati, vermicelli, lattuga, menta e basilico thai. Arrotolati al momento perché la carta non si appiccichi, accompagnati da salsa di arachidi della casa o vivace nước chấm.',
-      'dish.rolls.tag1': 'Arrotolati al momento',
-      'dish.rolls.tag2': 'Gambero o tofu',
-      'dish.rolls.tag3': 'Salsa di arachidi',
-      'dish.rolls.tag4': 'Nước chấm',
-      'dish.rolls.tag5': 'Senza glutine',
-
-      'story.eyebrow': 'Il Processo',
-      'story.title': 'Tre cose<br/>che Kim non vuole accelerare.',
-      'story.intro': "La cucina vietnamita è soprattutto questione di misura — l'ingrediente giusto al momento giusto, e poi lasciarlo in pace. Ecco cosa significa nella sua cucina.",
-      'story.step1.n': '01 / Il Brodo',
-      'story.step1.h': 'Ossa bruciate, mai bollite forte.',
-      'story.step1.p': 'Le ossa con il midollo si rosolano sulla fiamma finché non profumano, poi finiscono in acqua che può solo sussurrare. Un bollore forte intorbidisce il brodo — Kim non lo permette.',
-      'story.step2.n': '02 / Le Spezie',
-      'story.step2.h': 'Tostate in padella asciutta, a naso.',
-      'story.step2.p': 'Anice stellato, corteccia di cassia, chiodi di garofano, semi di coriandolo, finocchio — tostati finché la cucina non le dice di fermarsi. Legati in mussola perché il brodo resti chiaro e luminoso.',
-      'story.step3.n': '03 / Le Erbe',
-      'story.step3.h': "Tagliate all'ultimo momento possibile.",
-      'story.step3.p': "Basilico thai, coriandolo dentato, menta, cipollotti, peperoncino occhio d'uccello. Raccolti, lavati, strappati — mai tagliati — e aggiunti a tavola perché nulla perda vigore.",
-
-      'blend.eyebrow': 'Due Cucine, Una Cuoca',
-      'blend.title': 'Dove Sài Gòn<br/>incontra il Mediterraneo.',
-      'blend.intro': "Kim non fonde le due cucine — le lascia sedere alla stessa tavola. Tecnica vietnamita, dispensa italiana. Una lunga sobbollitura è una lunga sobbollitura in qualsiasi lingua.",
-      'blend.vn.h': 'La metà vietnamita.',
-      'blend.vn.p': "Salsa di pesce al posto del sale. Erbe strappate, non tagliate. Un brodo che ti dice quando è pronto. Ricette tramandate senza dosi — solo sensazione.",
-      'blend.vn.tag1': 'Nước mắm',
-      'blend.vn.tag2': 'Anice stellato',
-      'blend.vn.tag3': 'Basilico thai',
-      'blend.vn.tag4': 'Carta di riso',
-      'blend.vn.tag5': "Peperoncino occhio d'uccello",
-      'blend.it.h': 'La metà italiana.',
-      'blend.it.p': "Una visita settimanale al mercato per ciò che c'è di meglio. Ossa di manzo piemontese per il brodo, basilico ligure quando il thai dorme, olio d'oliva dove se lo merita.",
-      'blend.it.tag1': 'Trovate al mercato',
-      'blend.it.tag2': 'Sabati lenti',
-      'blend.it.tag3': 'Basilico',
-      'blend.it.tag4': 'Limone e erbe',
-      'blend.it.tag5': 'Buon appetito',
-
-      'about.eyebrow': 'Su Kim',
-      'about.title': 'Da un vicolo di Sài Gòn a una cucina in Italia.',
-      'about.p1': "Kim è cresciuta a Ho Chi Minh City — imparando a cucinare al gomito di sua madre in una cucina stretta che si apriva direttamente sulla strada, dove l'odore degli scalogni che si imbrunivano si mescolava ai gas di scarico delle moto e al caffè del vicino. Si è trasferita in Italia a vent'anni per amore, ed è rimasta per il cibo.",
-      'about.quote': '"Italiani e vietnamiti capiscono la stessa cosa — che un buon brodo, un buon ragù, una buona qualunque cosa richiede tutto il giorno. Non si può avere fretta."',
-      'about.p2': "Ora cucina da qualche parte tra due nonne. Phở fatto con ossa di manzo piemontese. Involtini finiti con basilico ligure quando il thai è fuori stagione. La tecnica è vietnamita, ma la dispensa è per metà italiana — e in qualche modo funziona.",
-
-      'cta.eyebrow': 'Mettiti in contatto',
-      'cta.title': 'Hai fame? Kim cucina questo fine settimana.',
-      'cta.body': "Mandale due righe su cosa vorresti, per quanti, e quando vuoi ritirare. Di solito risponde entro un giorno — prima se il brodo non è sul fuoco.",
-      'cta.btn': 'Scrivi a Kim →',
-
-      'foot.tagline': "Cucina casalinga vietnamita, fatta lenta — da Sài Gòn, cucinata in Italia. Phở e gỏi cuốn su ordinazione.",
-      'foot.menu_label': 'Menu',
-      'foot.find_label': 'Trova Kim',
-      'foot.link_process': 'Il Processo',
-      'foot.link_wom': 'Passaparola',
-      'foot.copy': "Kim's Kitchen · Fatto con amore e anice stellato",
-    },
-
-    vi: {
-      'meta.title': "Kim's Kitchen — Phở & Gỏi Cuốn",
-      'meta.description': "Kim's Kitchen — phở Việt thủ công và gỏi cuốn tươi, làm chậm và đầy yêu thương.",
-
-      'nav.menu': 'Thực Đơn',
-      'nav.process': 'Cách Làm',
-      'nav.blend': 'Hai Căn Bếp',
-      'nav.about': 'Về Kim',
-      'nav.contact': 'Liên Hệ',
-      'nav.cta': 'Đặt một tô',
-
-      'hero.eyebrow': 'Sài Gòn &nbsp;→&nbsp; Italia &nbsp;·&nbsp; căn bếp của cô',
-      'hero.title': 'Hồn Sài Gòn,<br /><em>nấu ở Ý.</em>',
-      'hero.lede': "Kim lớn lên ở Thành phố Hồ Chí Minh và bây giờ nấu ăn trong một căn bếp ở Ý — phở ninh mười sáu giờ, gỏi cuốn cuốn ngay khi gọi, và một mối tình thầm lặng với các khu chợ, rau thơm và nhịp sống chậm rãi của quê hương thứ hai. Hai nền văn hóa, một bếp lửa.",
-      'hero.cta1': 'Khám phá thực đơn →',
-      'hero.cta2': 'Cách nấu',
-      'hero.stat1': 'Thời gian ninh nước dùng',
-      'hero.stat2': 'Rau thơm &amp; gia vị tươi',
-      'hero.stat3': 'Đôi tay vững vàng',
-
-      'dishes.eyebrow': 'Thực Đơn',
-      'dishes.title': 'Hai món.<br/>Làm tử tế.',
-      'dishes.intro': "Kim cố ý giữ thực đơn nhỏ gọn — mỗi tô, mỗi cuốn đều nhận được trọn sự chăm chút của cô. Các công thức đến từ căn bếp của mẹ ở Sài Gòn; rau thơm, phần lớn, đến từ vườn ban công ở Ý.",
-
-      'dish.pho.tag': 'Đặc trưng · Bò',
-      'dish.pho.subtitle': '— linh hồn của buổi sáng Sài Gòn',
-      'dish.pho.desc': 'Xương bò nướng cháy trên lửa lớn, rồi ninh nhẹ mười sáu tiếng cùng gừng, hoa hồi, quế, đinh hương và một quả bạch đậu khấu đen. Dùng với bánh phở cắt tay, ức bò thái mỏng và một rừng rau thơm.',
-      'dish.pho.tag1': 'Nước dùng 16 giờ',
-      'dish.pho.tag2': 'Ức bò tái',
-      'dish.pho.tag3': 'Húng quế Thái',
-      'dish.pho.tag4': 'Chanh &amp; ớt',
-      'dish.pho.tag5': 'Tương hoisin nhà làm',
-
-      'dish.rolls.tag': 'Tươi · Có lựa chọn chay',
-      'dish.rolls.subtitle': '— mùa hè gói trong bánh tráng',
-      'dish.rolls.desc': 'Bánh tráng trong cuốn tôm luộc, bún, xà lách bơ, húng lủi và húng quế Thái. Cuốn ngay khi gọi để bánh không bị dính, ăn kèm sốt đậu phộng nhà làm hoặc nước chấm chua ngọt.',
-      'dish.rolls.tag1': 'Cuốn theo yêu cầu',
-      'dish.rolls.tag2': 'Tôm hoặc đậu hũ',
-      'dish.rolls.tag3': 'Sốt đậu phộng',
-      'dish.rolls.tag4': 'Nước chấm',
-      'dish.rolls.tag5': 'Không gluten',
-
-      'story.eyebrow': 'Cách Làm',
-      'story.title': 'Ba điều<br/>Kim không vội.',
-      'story.intro': "Nấu ăn Việt phần lớn là sự tiết chế — đúng nguyên liệu, đúng thời điểm, rồi để yên. Đây là cách điều đó diễn ra trong căn bếp của cô.",
-      'story.step1.n': '01 / Nước Dùng',
-      'story.step1.h': 'Xương nướng cháy, không sôi sùng sục.',
-      'story.step1.p': 'Xương ống được nướng trên lửa đến khi dậy mùi, rồi thả vào nước chỉ được phép thì thầm. Sôi sùng sục sẽ làm đục nước dùng — Kim không cho phép.',
-      'story.step2.n': '02 / Gia Vị',
-      'story.step2.h': 'Rang chảo khô, theo mùi.',
-      'story.step2.p': 'Hoa hồi, vỏ quế, đinh hương, hạt mùi, hạt thì là — rang đến khi căn bếp bảo dừng. Gói trong vải mỏng để nước dùng trong và sáng.',
-      'story.step3.n': '03 / Rau Thơm',
-      'story.step3.h': 'Hái vào phút cuối cùng.',
-      'story.step3.p': 'Húng quế Thái, ngò gai, húng lủi, hành lá, ớt hiểm. Hái, rửa, xé — không bao giờ cắt — và cho vào ngay tại bàn để không món nào bị nhạt.',
-
-      'blend.eyebrow': 'Hai Căn Bếp, Một Đầu Bếp',
-      'blend.title': 'Nơi Sài Gòn<br/>gặp Địa Trung Hải.',
-      'blend.intro': "Kim không pha trộn hai nền ẩm thực — cô để chúng cùng ngồi vào một bàn. Kỹ thuật Việt, gia vị Ý. Ninh lâu vẫn là ninh lâu trong mọi ngôn ngữ.",
-      'blend.vn.h': 'Phần Việt.',
-      'blend.vn.p': "Nước mắm thay vì muối. Rau xé, không cắt. Nước dùng tự bảo nó đã xong. Công thức truyền lại không có đong đếm — chỉ có cảm nhận.",
-      'blend.vn.tag1': 'Nước mắm',
-      'blend.vn.tag2': 'Hoa hồi',
-      'blend.vn.tag3': 'Húng quế Thái',
-      'blend.vn.tag4': 'Bánh tráng',
-      'blend.vn.tag5': 'Ớt hiểm',
-      'blend.it.h': 'Phần Ý.',
-      'blend.it.p': "Mỗi tuần một chuyến ra chợ để chọn thứ ngon nhất. Xương bò Piemonte cho nước dùng, húng quế Liguria khi húng Thái nghỉ, dầu ô liu ở nơi nó xứng đáng.",
-      'blend.it.tag1': 'Tìm ở chợ',
-      'blend.it.tag2': 'Thứ Bảy chậm rãi',
-      'blend.it.tag3': 'Basilico',
-      'blend.it.tag4': 'Chanh &amp; rau thơm',
-      'blend.it.tag5': 'Buon appetito',
-
-      'about.eyebrow': 'Về Kim',
-      'about.title': 'Từ một con hẻm Sài Gòn đến căn bếp ở Ý.',
-      'about.p1': "Kim lớn lên ở Thành phố Hồ Chí Minh — học nấu ăn bên khuỷu tay mẹ trong một căn bếp hẹp mở thẳng ra đường phố, nơi mùi hành tím cháy hòa với khói xe máy và cà phê của hàng xóm. Cô chuyển đến Ý ở tuổi đôi mươi vì tình yêu, và ở lại vì ẩm thực.",
-      'about.quote': '"Người Ý và người Việt hiểu cùng một điều — rằng một nồi nước dùng ngon, một nồi ragù ngon, một thứ gì ngon đều cần cả một ngày. Không thể vội được."',
-      'about.p2': "Giờ đây cô nấu ăn ở đâu đó giữa hai người bà. Phở nấu với xương bò Piemonte. Gỏi cuốn hoàn thiện bằng húng quế Liguria khi húng Thái hết mùa. Kỹ thuật là Việt, nhưng tủ gia vị nửa Ý — và bằng cách nào đó nó vẫn hợp.",
-
-      'cta.eyebrow': 'Liên hệ',
-      'cta.title': 'Đói chưa? Kim nấu cuối tuần này.',
-      'cta.body': "Gửi cô một dòng về những gì bạn muốn, cho bao nhiêu người, và khi nào bạn muốn nhận. Cô thường trả lời trong một ngày — sớm hơn nếu nước dùng chưa bắc.",
-      'cta.btn': 'Gửi mail cho Kim →',
-
-      'foot.tagline': "Món Việt nhà làm, nấu chậm — từ Sài Gòn, nấu ở Ý. Phở và gỏi cuốn theo yêu cầu.",
-      'foot.menu_label': 'Thực đơn',
-      'foot.find_label': 'Tìm Kim',
-      'foot.link_process': 'Cách Làm',
-      'foot.link_wom': 'Truyền miệng',
-      'foot.copy': "Kim's Kitchen · Làm với tình yêu &amp; hoa hồi",
-    },
-  };
+  const dictCache = {};
 
   function detectLang() {
     try {
@@ -1173,8 +898,16 @@
     return DEFAULT_LANG;
   }
 
-  function applyLang(lang) {
-    const dict = I18N[lang] || I18N[DEFAULT_LANG];
+  async function loadDict(lang) {
+    if (dictCache[lang]) return dictCache[lang];
+    const res = await fetch(`i18n/${lang}.json`, { cache: 'no-cache' });
+    if (!res.ok) throw new Error(`i18n load failed: ${lang} (${res.status})`);
+    const dict = await res.json();
+    dictCache[lang] = dict;
+    return dict;
+  }
+
+  function renderDict(lang, dict) {
     document.documentElement.lang = lang;
 
     if (dict['meta.title']) document.title = dict['meta.title'];
@@ -1189,14 +922,24 @@
       const key = el.getAttribute('data-i18n-html');
       if (dict[key] != null) el.innerHTML = dict[key];
     });
+  }
 
-    try { localStorage.setItem('lang', lang); } catch (_) {}
+  async function applyLang(lang) {
+    try {
+      const dict = await loadDict(lang);
+      renderDict(lang, dict);
+      try { localStorage.setItem('lang', lang); } catch (_) {}
+    } catch (err) {
+      console.error(err);
+      if (lang !== DEFAULT_LANG) applyLang(DEFAULT_LANG);
+    }
   }
 
   const langSwitch = document.getElementById('lang-switch');
   const initial = detectLang();
   langSwitch.value = initial;
-  applyLang(initial);
+  // The inline copy is already English, so skip a needless fetch when en is the resolved language.
+  if (initial !== DEFAULT_LANG) applyLang(initial);
   langSwitch.addEventListener('change', (e) => applyLang(e.target.value));
 </script>
 
