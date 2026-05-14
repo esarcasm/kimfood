@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="i18n-loading">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Kim's Kitchen — Phở & Spring Rolls</title>
-<meta name="description" content="Kim's Kitchen — handcrafted Vietnamese phở and fresh spring rolls, made slow and made with love." />
+<title>Kim's Kitchen</title>
+<meta name="description" content="Kim's Kitchen" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700;9..144,900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -75,7 +75,9 @@
   .nav-inner {
     display: flex; align-items: center; justify-content: space-between;
     height: 72px;
+    gap: 16px;
   }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
   .brand { display: flex; align-items: center; gap: 12px; font-family: 'Fraunces', serif; font-weight: 700; font-size: 20px; letter-spacing: -.01em; }
   .brand-mark {
     width: 36px; height: 36px; border-radius: 50%;
@@ -106,7 +108,32 @@
   .btn:hover { transform: translateY(-1px); background: var(--accent); }
   .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
   .btn.ghost:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* ===== LANG SWITCHER ===== */
+  .lang-switch {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    padding: 8px 30px 8px 14px;
+    border-radius: 100px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%231b1410' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: border-color .2s ease, background-color .2s ease;
+  }
+  .lang-switch:hover { border-color: var(--ink); }
+  .lang-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
   @media (max-width: 720px) { .nav-links { display: none; } }
+  @media (max-width: 480px) {
+    .nav-right .btn { padding: 10px 16px; font-size: 13px; }
+  }
 
   /* ===== HERO ===== */
   .hero {
@@ -427,6 +454,9 @@
     .reveal { opacity: 1; transform: none; }
     .float, .steam path, .marquee-track { animation: none; }
   }
+
+  /* hide content until i18n dictionary is applied — avoids a flash of empty markup */
+  html.i18n-loading body { visibility: hidden; }
 </style>
 </head>
 <body>
@@ -438,13 +468,20 @@
       Kim's Kitchen
     </a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#dishes">The Menu</a>
-      <a href="#story">The Process</a>
-      <a href="#blend">Two Kitchens</a>
-      <a href="#about">About Kim</a>
-      <a href="#contact">Contact</a>
+      <a href="#dishes" data-i18n="nav.menu"></a>
+      <a href="#story" data-i18n="nav.process"></a>
+      <a href="#blend" data-i18n="nav.blend"></a>
+      <a href="#about" data-i18n="nav.about"></a>
+      <a href="#contact" data-i18n="nav.contact"></a>
     </nav>
-    <a class="btn" href="#contact">Order a bowl</a>
+    <div class="nav-right">
+      <select id="lang-switch" class="lang-switch" aria-label="Language / Lingua / Ngôn ngữ">
+        <option value="en">English</option>
+        <option value="it">Italiano</option>
+        <option value="vi">Tiếng Việt</option>
+      </select>
+      <a class="btn" href="#contact" data-i18n="nav.cta"></a>
+    </div>
   </div>
 </header>
 
@@ -454,20 +491,18 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="reveal">
-        <span class="eyebrow">Sài Gòn &nbsp;→&nbsp; Italia &nbsp;·&nbsp; her kitchen</span>
-        <h1>Sài Gòn soul,<br /><em>cooked in Italy.</em></h1>
-        <p class="lede">
-          Kim grew up in Ho Chi Minh City and now cooks out of a kitchen in Italy — phở simmered for sixteen hours, spring rolls wrapped to order, and a quiet love affair with the markets, herbs and slow rhythms of her adopted home. Two cultures, one stove.
-        </p>
+        <span class="eyebrow" data-i18n-html="hero.eyebrow"></span>
+        <h1 data-i18n-html="hero.title"></h1>
+        <p class="lede" data-i18n="hero.lede"></p>
         <div class="hero-ctas">
-          <a href="#dishes" class="btn">Explore the menu →</a>
-          <a href="#story" class="btn ghost">How it's made</a>
+          <a href="#dishes" class="btn" data-i18n="hero.cta1"></a>
+          <a href="#story" class="btn ghost" data-i18n="hero.cta2"></a>
         </div>
 
         <div class="hero-meta">
-          <div class="meta-stat"><div class="n">16h</div><div class="l">Broth simmer time</div></div>
-          <div class="meta-stat"><div class="n">12</div><div class="l">Fresh herbs &amp; spices</div></div>
-          <div class="meta-stat"><div class="n">1</div><div class="l">Pair of very steady hands</div></div>
+          <div class="meta-stat"><div class="n">16h</div><div class="l" data-i18n="hero.stat1"></div></div>
+          <div class="meta-stat"><div class="n">12</div><div class="l" data-i18n-html="hero.stat2"></div></div>
+          <div class="meta-stat"><div class="n">1</div><div class="l" data-i18n="hero.stat3"></div></div>
         </div>
       </div>
 
@@ -552,10 +587,10 @@
     <div class="wrap">
       <div class="section-head reveal">
         <div>
-          <span class="eyebrow">The Menu</span>
-          <h2>Two dishes.<br/>Done properly.</h2>
+          <span class="eyebrow" data-i18n="dishes.eyebrow"></span>
+          <h2 data-i18n-html="dishes.title"></h2>
         </div>
-        <p>Kim keeps the menu small on purpose — every bowl, every roll gets her full attention. The recipes come from her mother's kitchen in Sài Gòn; the herbs, more often than not, come from a balcony garden in Italy.</p>
+        <p data-i18n="dishes.intro"></p>
       </div>
 
       <div class="dishes">
@@ -590,12 +625,12 @@
             </svg>
           </div>
           <div class="dish-body">
-            <span class="tag">Signature · Beef</span>
+            <span class="tag" data-i18n="dish.pho.tag"></span>
             <h3>Phở Bò</h3>
-            <div class="vn">— the soul of a Sài Gòn morning</div>
-            <p>Beef bones charred over open flame, then coaxed for sixteen hours with ginger, star anise, cassia, cloves and a single black cardamom pod. Served with hand-cut rice noodles, thin-shaved brisket, and a forest of herbs.</p>
+            <div class="vn" data-i18n="dish.pho.subtitle"></div>
+            <p data-i18n="dish.pho.desc"></p>
             <ul>
-              <li>16-hour broth</li><li>Rare brisket</li><li>Thai basil</li><li>Lime &amp; chili</li><li>House hoisin</li>
+              <li data-i18n="dish.pho.tag1"></li><li data-i18n="dish.pho.tag2"></li><li data-i18n="dish.pho.tag3"></li><li data-i18n-html="dish.pho.tag4"></li><li data-i18n="dish.pho.tag5"></li>
             </ul>
           </div>
         </article>
@@ -642,12 +677,12 @@
             </svg>
           </div>
           <div class="dish-body">
-            <span class="tag">Fresh · Vegetarian options</span>
+            <span class="tag" data-i18n="dish.rolls.tag"></span>
             <h3>Gỏi Cuốn</h3>
-            <div class="vn">— summer wrapped in rice paper</div>
-            <p>Translucent rice paper around poached prawn, vermicelli, butter lettuce, mint and Thai basil. Wrapped to order so the paper never gets tacky, paired with house peanut sauce or tangy nước chấm.</p>
+            <div class="vn" data-i18n="dish.rolls.subtitle"></div>
+            <p data-i18n="dish.rolls.desc"></p>
             <ul>
-              <li>Wrapped to order</li><li>Prawn or tofu</li><li>Peanut sauce</li><li>Nước chấm</li><li>Gluten-free</li>
+              <li data-i18n="dish.rolls.tag1"></li><li data-i18n="dish.rolls.tag2"></li><li data-i18n="dish.rolls.tag3"></li><li data-i18n="dish.rolls.tag4"></li><li data-i18n="dish.rolls.tag5"></li>
             </ul>
           </div>
         </article>
@@ -660,27 +695,27 @@
     <div class="wrap">
       <div class="section-head reveal">
         <div>
-          <span class="eyebrow" style="color: var(--accent-2)">The Process</span>
-          <h2>Three things<br/>Kim refuses to rush.</h2>
+          <span class="eyebrow" style="color: var(--accent-2)" data-i18n="story.eyebrow"></span>
+          <h2 data-i18n-html="story.title"></h2>
         </div>
-        <p>Vietnamese cooking is mostly about restraint — the right ingredient at the right time, and then leaving it alone. Here's what that looks like in her kitchen.</p>
+        <p data-i18n="story.intro"></p>
       </div>
 
       <div class="story-grid">
         <div class="step reveal">
-          <div class="n">01 / The Broth</div>
-          <h3>Bones charred, never boiled hard.</h3>
-          <p>Marrow bones blister over a flame until aromatic, then drop into water that's only ever allowed to whisper. A rolling boil clouds the broth — Kim won't have it.</p>
+          <div class="n" data-i18n="story.step1.n"></div>
+          <h3 data-i18n="story.step1.h"></h3>
+          <p data-i18n="story.step1.p"></p>
         </div>
         <div class="step reveal">
-          <div class="n">02 / The Spice</div>
-          <h3>Toasted in a dry pan, by smell.</h3>
-          <p>Star anise, cassia bark, cloves, coriander seed, fennel — toasted until the kitchen tells her to stop. Bundled in muslin so the broth stays clear and bright.</p>
+          <div class="n" data-i18n="story.step2.n"></div>
+          <h3 data-i18n="story.step2.h"></h3>
+          <p data-i18n="story.step2.p"></p>
         </div>
         <div class="step reveal">
-          <div class="n">03 / The Herbs</div>
-          <h3>Cut at the last possible moment.</h3>
-          <p>Thai basil, sawtooth coriander, mint, scallions, bird's-eye chili. Picked, washed, torn — never chopped — and added at the table so nothing goes flat.</p>
+          <div class="n" data-i18n="story.step3.n"></div>
+          <h3 data-i18n="story.step3.h"></h3>
+          <p data-i18n="story.step3.p"></p>
         </div>
       </div>
     </div>
@@ -691,19 +726,19 @@
     <div class="wrap">
       <div class="section-head reveal">
         <div>
-          <span class="eyebrow">Two Kitchens, One Cook</span>
-          <h2>Where Sài Gòn<br/>meets the Mediterranean.</h2>
+          <span class="eyebrow" data-i18n="blend.eyebrow"></span>
+          <h2 data-i18n-html="blend.title"></h2>
         </div>
-        <p>Kim doesn't fuse the two cuisines — she lets them sit at the same table. Vietnamese technique, Italian pantry. A long simmer is a long simmer in any language.</p>
+        <p data-i18n="blend.intro"></p>
       </div>
 
       <div class="blend-grid">
         <article class="blend-card vn reveal">
           <div class="flag"><span class="dot"></span> Sài Gòn</div>
-          <h3>The Vietnamese half.</h3>
-          <p>Fish sauce instead of salt. Herbs torn, not chopped. Broth that tells you when it's done. Recipes passed down without measurements — only feel.</p>
+          <h3 data-i18n="blend.vn.h"></h3>
+          <p data-i18n="blend.vn.p"></p>
           <ul class="tags">
-            <li>Nước mắm</li><li>Star anise</li><li>Thai basil</li><li>Rice paper</li><li>Bird's-eye chili</li>
+            <li data-i18n="blend.vn.tag1"></li><li data-i18n="blend.vn.tag2"></li><li data-i18n="blend.vn.tag3"></li><li data-i18n="blend.vn.tag4"></li><li data-i18n="blend.vn.tag5"></li>
           </ul>
         </article>
 
@@ -711,10 +746,10 @@
 
         <article class="blend-card it reveal">
           <div class="flag"><span class="dot"></span> Italia</div>
-          <h3>The Italian half.</h3>
-          <p>A weekly trip to the market for whatever's best. Piedmontese beef bones for the broth, Ligurian basil when the Thai variety is sleeping, olive oil where it earns its place.</p>
+          <h3 data-i18n="blend.it.h"></h3>
+          <p data-i18n="blend.it.p"></p>
           <ul class="tags">
-            <li>Mercato finds</li><li>Slow Saturdays</li><li>Basilico</li><li>Lemon &amp; herbs</li><li>Buon appetito</li>
+            <li data-i18n="blend.it.tag1"></li><li data-i18n="blend.it.tag2"></li><li data-i18n="blend.it.tag3"></li><li data-i18n-html="blend.it.tag4"></li><li data-i18n="blend.it.tag5"></li>
           </ul>
         </article>
       </div>
@@ -764,17 +799,11 @@
       </div>
 
       <div class="reveal">
-        <span class="eyebrow">About Kim</span>
-        <h2>From a Sài Gòn alleyway to a kitchen in Italy.</h2>
-        <p>
-          Kim grew up in Ho Chi Minh City — learning to cook at her mother's elbow in a narrow kitchen that opened straight onto the street, where the smell of charring shallots blended with motorbike exhaust and the neighbour's coffee. She moved to Italy in her twenties for love, and stayed for the food.
-        </p>
-        <blockquote>
-          "Italians and Vietnamese understand the same thing — that a good broth, a good ragù, a good anything takes all day. You can't be in a hurry."
-        </blockquote>
-        <p>
-          Now she cooks somewhere between two grandmothers. Phở made with Piedmontese beef bones. Spring rolls finished with Ligurian basil when Thai basil's out of season. The technique is Vietnamese, but the pantry is half Italian — and somehow it works.
-        </p>
+        <span class="eyebrow" data-i18n="about.eyebrow"></span>
+        <h2 data-i18n="about.title"></h2>
+        <p data-i18n="about.p1"></p>
+        <blockquote data-i18n="about.quote"></blockquote>
+        <p data-i18n="about.p2"></p>
       </div>
     </div>
   </section>
@@ -782,10 +811,10 @@
   <!-- CTA -->
   <section id="contact" class="cta">
     <div class="wrap reveal">
-      <span class="eyebrow">Get in touch</span>
-      <h2>Hungry? Kim is cooking this weekend.</h2>
-      <p>Drop her a note about what you'd like, how many you're feeding, and when you'd like to pick up. She usually gets back within a day — sooner if the broth isn't on.</p>
-      <a href="mailto:hello@example.com" class="btn">Email Kim →</a>
+      <span class="eyebrow" data-i18n="cta.eyebrow"></span>
+      <h2 data-i18n="cta.title"></h2>
+      <p data-i18n="cta.body"></p>
+      <a href="mailto:hello@example.com" class="btn" data-i18n="cta.btn"></a>
     </div>
   </section>
 
@@ -799,23 +828,23 @@
           <span class="brand-mark" aria-hidden="true"></span>
           Kim's Kitchen
         </div>
-        <div style="max-width: 32ch;">Vietnamese home cooking, made slow — from Sài Gòn, cooked in Italy. Phở and gỏi cuốn to order.</div>
+        <div style="max-width: 32ch;" data-i18n="foot.tagline"></div>
       </div>
       <div>
-        <div style="color: var(--paper); font-weight: 600; margin-bottom: 10px;">Menu</div>
+        <div style="color: var(--paper); font-weight: 600; margin-bottom: 10px;" data-i18n="foot.menu_label"></div>
         <div><a href="#dishes">Phở Bò</a></div>
         <div><a href="#dishes">Gỏi Cuốn</a></div>
-        <div><a href="#story">The Process</a></div>
+        <div><a href="#story" data-i18n="foot.link_process"></a></div>
       </div>
       <div>
-        <div style="color: var(--paper); font-weight: 600; margin-bottom: 10px;">Find Kim</div>
+        <div style="color: var(--paper); font-weight: 600; margin-bottom: 10px;" data-i18n="foot.find_label"></div>
         <div><a href="mailto:hello@example.com">hello@example.com</a></div>
         <div><a href="#">Instagram</a></div>
-        <div><a href="#">Word of mouth</a></div>
+        <div><a href="#" data-i18n="foot.link_wom"></a></div>
       </div>
     </div>
     <div class="foot-bottom">
-      <div>© <span id="yr"></span> Kim's Kitchen · Made with love &amp; star anise</div>
+      <div>© <span id="yr"></span> <span data-i18n-html="foot.copy"></span></div>
       <div>Sài Gòn → Italia, con amore</div>
     </div>
   </div>
@@ -841,6 +870,77 @@
     });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ===== i18n =====
+  // All translatable strings live in i18n/<lang>.json — index.html ships with
+  // empty translatable elements. The body is hidden until the first dictionary
+  // is applied to avoid a flash of empty markup.
+  const SUPPORTED = ['en', 'it', 'vi'];
+  const DEFAULT_LANG = 'en';
+  const dictCache = {};
+
+  function detectLang() {
+    try {
+      const saved = localStorage.getItem('lang');
+      if (saved && SUPPORTED.includes(saved)) return saved;
+    } catch (_) {}
+    const candidates = (navigator.languages && navigator.languages.length)
+      ? navigator.languages
+      : [navigator.language || navigator.userLanguage || ''];
+    for (const c of candidates) {
+      const base = (c || '').toLowerCase().split('-')[0];
+      if (SUPPORTED.includes(base)) return base;
+    }
+    return DEFAULT_LANG;
+  }
+
+  async function loadDict(lang) {
+    if (dictCache[lang]) return dictCache[lang];
+    const res = await fetch(`i18n/${lang}.json`, { cache: 'no-cache' });
+    if (!res.ok) throw new Error(`i18n load failed: ${lang} (${res.status})`);
+    const dict = await res.json();
+    dictCache[lang] = dict;
+    return dict;
+  }
+
+  function renderDict(lang, dict) {
+    document.documentElement.lang = lang;
+
+    if (dict['meta.title']) document.title = dict['meta.title'];
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && dict['meta.description']) metaDesc.setAttribute('content', dict['meta.description']);
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] != null) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if (dict[key] != null) el.innerHTML = dict[key];
+    });
+  }
+
+  async function applyLang(lang) {
+    try {
+      const dict = await loadDict(lang);
+      renderDict(lang, dict);
+      try { localStorage.setItem('lang', lang); } catch (_) {}
+    } catch (err) {
+      console.error(err);
+      if (lang !== DEFAULT_LANG) {
+        await applyLang(DEFAULT_LANG);
+        return;
+      }
+    } finally {
+      document.documentElement.classList.remove('i18n-loading');
+    }
+  }
+
+  const langSwitch = document.getElementById('lang-switch');
+  const initial = detectLang();
+  langSwitch.value = initial;
+  applyLang(initial);
+  langSwitch.addEventListener('change', (e) => applyLang(e.target.value));
 </script>
 
 </body>
