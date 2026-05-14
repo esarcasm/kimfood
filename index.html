@@ -110,25 +110,95 @@
   .btn.ghost:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
   /* ===== LANG SWITCHER ===== */
-  .lang-switch {
-    appearance: none;
-    -webkit-appearance: none;
+  .lang-switch { position: relative; font-size: 13px; }
+  .lang-switch__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     background: transparent;
     border: 1px solid var(--line);
     color: var(--ink);
-    padding: 8px 30px 8px 14px;
+    padding: 8px 12px 8px 12px;
     border-radius: 100px;
     font: inherit;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%231b1410' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
     transition: border-color .2s ease, background-color .2s ease;
   }
-  .lang-switch:hover { border-color: var(--ink); }
-  .lang-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .lang-switch__btn:hover { border-color: var(--ink); }
+  .lang-switch__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .lang-switch__flag {
+    font-size: 15px;
+    line-height: 1;
+    font-family: 'Twemoji Country Flags', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+  }
+  .lang-switch__code { letter-spacing: .08em; text-transform: uppercase; }
+  .lang-switch__chev {
+    width: 10px; height: 6px;
+    transition: transform .2s ease;
+  }
+  .lang-switch[data-open="true"] .lang-switch__chev { transform: rotate(180deg); }
+  .lang-switch[data-open="true"] .lang-switch__btn { border-color: var(--ink); }
+
+  .lang-switch__menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 180px;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateY(-4px) scale(.98);
+    transform-origin: top right;
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+    z-index: 60;
+  }
+  .lang-switch[data-open="true"] .lang-switch__menu {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .lang-switch__option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 12px;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: left;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color .15s ease, color .15s ease;
+  }
+  .lang-switch__option:hover,
+  .lang-switch__option:focus-visible {
+    background: var(--bg-2);
+    outline: none;
+  }
+  .lang-switch__option[aria-selected="true"] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .lang-switch__option .lang-switch__code {
+    font-weight: 700;
+    font-size: 11px;
+    opacity: .7;
+    margin-left: auto;
+  }
+  .lang-switch__option[aria-selected="true"] .lang-switch__code { opacity: .85; }
+  .lang-switch__option .lang-switch__name { flex: 1; }
 
   @media (max-width: 720px) { .nav-links { display: none; } }
   @media (max-width: 480px) {
@@ -475,11 +545,36 @@
       <a href="#contact" data-i18n="nav.contact"></a>
     </nav>
     <div class="nav-right">
-      <select id="lang-switch" class="lang-switch" aria-label="Language / Lingua / Ngôn ngữ">
-        <option value="en">English</option>
-        <option value="it">Italiano</option>
-        <option value="vi">Tiếng Việt</option>
-      </select>
+      <div class="lang-switch" id="lang-switch" data-open="false">
+        <button type="button" class="lang-switch__btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Language / Lingua / Ngôn ngữ">
+          <span class="lang-switch__flag" data-lang-flag aria-hidden="true">🇬🇧</span>
+          <span class="lang-switch__code" data-lang-code>EN</span>
+          <svg class="lang-switch__chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+        </button>
+        <ul class="lang-switch__menu" role="listbox" aria-label="Choose language">
+          <li>
+            <button type="button" class="lang-switch__option" role="option" data-value="en" aria-selected="true">
+              <span class="lang-switch__flag" aria-hidden="true">🇬🇧</span>
+              <span class="lang-switch__name">English</span>
+              <span class="lang-switch__code">EN</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="lang-switch__option" role="option" data-value="it" aria-selected="false">
+              <span class="lang-switch__flag" aria-hidden="true">🇮🇹</span>
+              <span class="lang-switch__name">Italiano</span>
+              <span class="lang-switch__code">IT</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="lang-switch__option" role="option" data-value="vi" aria-selected="false">
+              <span class="lang-switch__flag" aria-hidden="true">🇻🇳</span>
+              <span class="lang-switch__name">Tiếng Việt</span>
+              <span class="lang-switch__code">VI</span>
+            </button>
+          </li>
+        </ul>
+      </div>
       <a class="btn" href="#contact" data-i18n="nav.cta"></a>
     </div>
   </div>
@@ -937,10 +1032,81 @@
   }
 
   const langSwitch = document.getElementById('lang-switch');
+  const langBtn = langSwitch.querySelector('.lang-switch__btn');
+  const langMenu = langSwitch.querySelector('.lang-switch__menu');
+  const langOptions = Array.from(langSwitch.querySelectorAll('.lang-switch__option'));
+  const langFlagEl = langSwitch.querySelector('[data-lang-flag]');
+  const langCodeEl = langSwitch.querySelector('[data-lang-code]');
+
+  function setLangSelection(lang) {
+    let matched = null;
+    langOptions.forEach(opt => {
+      const isSel = opt.dataset.value === lang;
+      opt.setAttribute('aria-selected', isSel ? 'true' : 'false');
+      if (isSel) matched = opt;
+    });
+    if (matched) {
+      langFlagEl.textContent = matched.querySelector('.lang-switch__flag').textContent;
+      langCodeEl.textContent = matched.querySelector('.lang-switch__code').textContent;
+    }
+  }
+
+  function openLangMenu() {
+    langSwitch.dataset.open = 'true';
+    langBtn.setAttribute('aria-expanded', 'true');
+    const selected = langOptions.find(o => o.getAttribute('aria-selected') === 'true') || langOptions[0];
+    selected.focus();
+  }
+  function closeLangMenu(returnFocus) {
+    langSwitch.dataset.open = 'false';
+    langBtn.setAttribute('aria-expanded', 'false');
+    if (returnFocus) langBtn.focus();
+  }
+
+  langBtn.addEventListener('click', () => {
+    if (langSwitch.dataset.open === 'true') closeLangMenu(false);
+    else openLangMenu();
+  });
+
+  langOptions.forEach((opt, idx) => {
+    opt.addEventListener('click', () => {
+      const lang = opt.dataset.value;
+      setLangSelection(lang);
+      applyLang(lang);
+      closeLangMenu(true);
+    });
+    opt.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        langOptions[(idx + 1) % langOptions.length].focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        langOptions[(idx - 1 + langOptions.length) % langOptions.length].focus();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closeLangMenu(true);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        langOptions[0].focus();
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        langOptions[langOptions.length - 1].focus();
+      }
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (langSwitch.dataset.open === 'true' && !langSwitch.contains(e.target)) {
+      closeLangMenu(false);
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && langSwitch.dataset.open === 'true') closeLangMenu(true);
+  });
+
   const initial = detectLang();
-  langSwitch.value = initial;
+  setLangSelection(initial);
   applyLang(initial);
-  langSwitch.addEventListener('change', (e) => applyLang(e.target.value));
 </script>
 
 </body>
